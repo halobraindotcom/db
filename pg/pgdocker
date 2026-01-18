@@ -1,1 +1,92 @@
 
+
+
+
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: db2admin
+      POSTGRES_DB: springdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+
+
+How Docker connects them (simple view)
+PostgreSQL container
+└── /var/lib/postgresql/data
+        ↑
+        │  (mounted volume)
+        ↓
+Ubuntu Host OS
+└── /var/lib/docker/volumes/pgdata/_data
+
+
+PostgreSQL thinks it’s writing inside the container,
+but data is actually written on your Ubuntu machine.
+
+
+Named Volume vs Bind Mount (One Look)
+Type	Example	Host Location
+Named Volume	pgdata:/var/lib/postgresql/data	/var/lib/docker/volumes/pgdata/_data
+Bind Mount	./data:/var/lib/postgresql/data	Your project folder
+
+    volumes:
+      - /home/docker-data/postgres:/var/lib/postgresql/data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pgadmin
+https://www.pgadmin.org/download/pgadmin-4-apt/
+
+To use this repository, run the following commands:
+
+#
+# Setup the repository
+#
+
+# Install the public key for the repository (if not done previously):
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+
+# Create the repository configuration file:
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+
+#
+# Install pgAdmin
+#
+
+# Install for both desktop and web modes:
+sudo apt install pgadmin4
+
+# Install for desktop mode only:
+sudo apt install pgadmin4-desktop
+
+# Install for web mode only: 
+sudo apt install pgadmin4-web 
+
+
+
+
+
+
