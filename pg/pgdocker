@@ -17,6 +17,8 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
 
+# Giving ownership to a container user (e.g., PostgreSQL) so it can read/write data
+sudo chown -R 999:999 data
 
 
 How Docker connects them (simple view)
@@ -40,19 +42,6 @@ Bind Mount	./data:/var/lib/postgresql/data	Your project folder
 
     volumes:
       - /home/docker-data/postgres:/var/lib/postgresql/data
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
